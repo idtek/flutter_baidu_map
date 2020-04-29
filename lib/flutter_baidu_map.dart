@@ -25,6 +25,11 @@ class BaiduLocation{
       this.locationDescribe,this.adCode,this.errorCode,this.isInChina});
 
   factory BaiduLocation.fromMap(dynamic value){
+	if(value['errorCode'] != 161){
+		return BaiduLocation(
+			errorCode:value['errorCode']
+		);
+	}
     return new BaiduLocation(
       latitude: value['latitude'],
       longitude:value['longitude'],
@@ -77,7 +82,6 @@ class FlutterBaiduMap {
   }
   static Future<BaiduLocation>  getCurrentLocation() async {
     final Map result = await _channel.invokeMethod('getCurrentLocation');
-	if(result == null) return null;
     return new BaiduLocation.fromMap(result);
   }
 }
